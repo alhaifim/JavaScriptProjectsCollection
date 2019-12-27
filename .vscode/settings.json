@@ -1,2 +1,5 @@
 {
+  "editor.tokenColorCustomizations": {
+    "comments": "#bb5a19"
+  }
 }
