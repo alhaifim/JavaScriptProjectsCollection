@@ -1,0 +1,1 @@
+Materialized CSS was used to design the UI
