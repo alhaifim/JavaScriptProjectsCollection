@@ -57,6 +57,56 @@ class UI {
     document.getElementById('isbn').value = '';
   }
 }
+
+// Local Storage Class
+
+class Store {
+    static getBooks(){
+        let books;
+        if(localStorage.getItem('books')===null){
+            books =[];
+        } else {
+            books = JSON.parse(localStorage.getItem('books'));
+        }
+        return books;
+ 
+     }
+     static displayBooks(){
+        const books = Store.getBooks();
+
+        books.forEach(function(book){
+            const ui = new UI;
+
+            // Add book to UI
+            ui.addBookToList(book);
+        })
+     }
+     static addBook(book){
+         // get books from local storage
+         const books = Store.getBooks();
+         
+         books.push(book);
+
+         localStorage.setItem('books', JSON.stringify(books));
+     }
+     static removeBook(isbn){
+        // get books from local storage
+        const books = Store.getBooks();
+
+        books.forEach(function(book, index){
+            if(book.isbn === isbn){
+                books.splice(index, 1);
+            }
+
+        });
+        localStorage.setItem('books', JSON.stringify(books));
+ 
+     }
+ }
+
+ // DOM LOAD Event 
+ document.addEventListener('DOMContentLoaded', Store.displayBooks);
+ 
 //Event Listener for add book
 document.getElementById('book-form').addEventListener('submit', function(e) {
   // Get form values
@@ -74,6 +124,9 @@ document.getElementById('book-form').addEventListener('submit', function(e) {
   } else {
     // Add book to list
     ui.addBookToList(book);
+
+    // Add to local storage
+    Store.addBook(book);
     // show success
     ui.showAlert('Book Added!', 'success');
     // clear fields
@@ -82,6 +135,8 @@ document.getElementById('book-form').addEventListener('submit', function(e) {
   e.preventDefault();
 });
 
+
+
 //Event Listener for Delete - we have to use the parent class which is book-list
 
 document.getElementById('book-list').addEventListener('click', function(e) {
@@ -89,6 +144,10 @@ document.getElementById('book-list').addEventListener('click', function(e) {
   const ui = new UI();
   // Delete Book
   ui.deleteBook(e.target);
+
+  // Remove from LS .. delete using the ISDN number
+  Store.removeBook
+  (e.target.parentElement.previousElementSibling.textContent);
 
   // Show message
   ui.showAlert('Book Removed!', 'success');
