@@ -14,7 +14,7 @@ class UI {
             <div class="col-md-9">
                 <span class="badge badge-primary">Public Repos: ${user.public_repos}</span>
                 <span class="badge badge-secondary">Public Gists: ${user.public_gists}</span>
-                <span class="badge badge-success">Followers ${user.followers}</span>
+                <span class="badge badge-success">Followers: ${user.followers}</span>
                 <span class="badge badge-info">Following: ${user.following}</span>
                 <br><br>
                 <ul class="list-group">
@@ -32,6 +32,38 @@ class UI {
      
      `;
   }
+
+  // Show user repos
+  showRepos(repos) {
+    // it will take the repos array
+    let output = '';
+
+    repos.forEach(repo => {
+      // will put each repo into a card
+      output += `
+            <div class = "card card-body mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+                    </div>
+                    <div class="col-md-6">
+                    <span class="badge badge-primary">Stars: ${repo.stargazers_count}</span>
+                    <span class="badge badge-secondary">Watchers: ${repo.watchers_count}</span>
+                    <span class="badge badge-success">Forks: ${repo.forks_count}</span>
+                    </div>
+                
+                </div>
+
+            </div>
+
+        
+        `;
+    });
+
+    // Output Repos
+    document.getElementById('repos').innerHTML = output;
+  }
+
   // Show Alert Message
   showAlert(message, className) {
     // Clear any remaining alerts
