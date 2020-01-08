@@ -2,6 +2,7 @@ class UI {
   constructor() {
     this.profile = document.getElementById('profile');
   }
+  // Display profile and UI
   showProfile(user) {
     this.profile.innerHTML = `
      <div class = "card card-body mb-3">
@@ -30,5 +31,39 @@ class UI {
     <div id="repos"></div>
      
      `;
+  }
+  // Show Alert Message
+  showAlert(message, className) {
+    // Clear any remaining alerts
+    this.clearAlert();
+    // create div
+    const div = document.createElement('div');
+    // Add Classes
+    div.className = className;
+    //Add text
+    div.appendChild(document.createTextNode(message));
+    //Get Parent
+    const container = document.querySelector('.searchContainer');
+    //Get SearchBox
+    const search = document.querySelector('.search');
+    //Insert alert.  div is what we want to insert and search is what we want to insert it before
+    container.insertBefore(div, search);
+    //Time out after 3 seconds
+    setTimeout(() => {
+      this.clearAlert();
+    }, 3000);
+  }
+
+  //clear Alert message
+  clearAlert() {
+    const currentAlert = document.querySelector('.alert');
+
+    if (currentAlert) {
+      currentAlert.remove();
+    }
+  }
+
+  clearProfile(message, className) {
+    this.profile.innerHTML = '';
   }
 }
